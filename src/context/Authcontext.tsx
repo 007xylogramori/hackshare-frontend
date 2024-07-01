@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const setUserDeatils = (obj: any) => {
-    console.log(Object.keys(obj.data.user), "hello");
+    // console.log(Object.keys(obj.data.user), "hello");
     setUser(obj.data.user);
   };
 
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           },
         );
         setUser(refreshResponse.data.data.user);
-        console.log(refreshResponse.data.data.user, "refreshed");
+        // console.log(refreshResponse.data.data.user, "refreshed");
       } else if (accessToken != undefined && refreshToken != undefined) {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}users/current-user`,
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             withCredentials: true, 
           },
         );
-        console.log(response.data.data, "not refreshed");
+        // console.log(response.data.data, "not refreshed");
         setUser(response.data.data);
       } else {
         signOut();

@@ -10,13 +10,12 @@ export default function Home() {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
-    console.log(authContext?.user);
   }, []);
 
   return (
     <>
       <DefaultLayout>
-        <div>hello {authContext?.user?.fullName} </div>
+        <div>Hello {authContext?.user?.fullName} </div>
       </DefaultLayout>
     </>
   );
