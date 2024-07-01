@@ -1,15 +1,53 @@
+"use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-
-export const metadata: Metadata = {
-  title: "Next.js Settings | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Settings page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-};
+import { FormEvent, useContext, useEffect, useState } from "react";
+import AuthContext from "@/context/Authcontext";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Settings = () => {
+  const authContext = useContext(AuthContext);
+  const router = useRouter();
+  const [fullName, setfullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [bio, setBio] = useState("");
+  const [error,setError]=useState("");
+  const [success,setSuccess]=useState("");
+
+  const handleUpdateAccount = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}users/update-account`,
+        { email, fullName , bio },
+        { withCredentials: true },
+      );
+      console.log(response.data);
+      if (response.status === 200) {
+        authContext?.setUserDeatils(response.data);
+        setSuccess("Account Details Updated successfully")
+        setError("")
+      }
+    } catch (error: any) {
+      console.log(error.response?.data);
+      setError(
+        error.response?.data?.message || "Invalid Data for update. Please recheck",
+      );
+      setSuccess("")
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (authContext?.user == null) {
+      authContext?.setUserUsingtokens();
+    }
+    setfullName(authContext?.user?.fullName);
+    setEmail(authContext?.user?.email);
+    setBio(authContext?.user?.bio);
+  }, [success]);
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-270">
@@ -24,9 +62,17 @@ const Settings = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleUpdateAccount}>
+
+                    {
+                      error && <p className=" py-1 text-red">{error}</p>
+                    }
+                    {
+                      success && <p className=" py-1 text-green-400">{success}</p>
+                    }
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                    <div className="w-full sm:w-1/2">
+
+                    <div className="w-full ">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
                         htmlFor="fullName"
@@ -60,31 +106,17 @@ const Settings = () => {
                           </svg>
                         </span>
                         <input
+                          value={fullName}
+                          onChange={(e) => {
+                            setfullName(e.target.value);
+                          }}
                           className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           type="text"
                           name="fullName"
                           id="fullName"
-                          placeholder="Devid Jhon"
-                          defaultValue="Devid Jhon"
+                          defaultValue={authContext?.user?.fullName}
                         />
                       </div>
-                    </div>
-
-                    <div className="w-full sm:w-1/2">
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="phoneNumber"
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
-                      />
                     </div>
                   </div>
 
@@ -122,12 +154,15 @@ const Settings = () => {
                         </svg>
                       </span>
                       <input
+                        value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="email"
                         name="emailAddress"
                         id="emailAddress"
-                        placeholder="devidjond45@gmail.com"
-                        defaultValue="devidjond45@gmail.com"
+                        defaultValue={authContext?.user?.email}
                       />
                     </div>
                   </div>
@@ -139,14 +174,12 @@ const Settings = () => {
                     >
                       Username
                     </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="Username"
-                      id="Username"
-                      placeholder="devidjhon24"
-                      defaultValue="devidjhon24"
-                    />
+                    <div
+                      className="w-full  rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white hover:cursor-not-allowed "
+                      
+                      
+                      
+                    >{authContext?.user?.username}</div>
                   </div>
 
                   <div className="mb-5.5">
@@ -189,12 +222,16 @@ const Settings = () => {
                       </span>
 
                       <textarea
+                        value={bio}
+                        onChange={(e) => {
+                          setBio(e.target.value);
+                        }}
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         name="bio"
                         id="bio"
                         rows={6}
                         placeholder="Write your bio here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
+                        defaultValue={authContext?.user?.bio}
                       ></textarea>
                     </div>
                   </div>
