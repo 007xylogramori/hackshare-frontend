@@ -69,9 +69,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log(error);
     }
   };
-  const signOut = () => {
-    setUser(null);
-    router.push("/auth/signin");
+  const signOut = async() => {
+    try {
+      await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}users/logout`,
+        {
+          withCredentials: true, 
+        },
+      ).then(()=>{
+        setUser(null);
+        router.push("/auth/signin");
+      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

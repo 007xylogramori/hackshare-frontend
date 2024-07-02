@@ -14,7 +14,7 @@ const Settings = () => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
-  }, [authContext?.user]);
+  }, [authContext?.user , authContext]);
 
   return (
     <DefaultLayout>

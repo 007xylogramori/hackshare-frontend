@@ -1,11 +1,9 @@
 import AuthContext from "@/context/Authcontext";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 
 const ChangePersonalInfo = () => {
   const authContext = useContext(AuthContext);
-  const router = useRouter();
   const [fullName, setfullName] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
