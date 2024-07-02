@@ -9,6 +9,7 @@ import axios from "axios";
 import CardDataStats from "@/components/CardDataStats";
 const SingleTeamPage = () => {
   const params = useParams<any>();
+  const router = useRouter();
   const [teamDetails, setTeamDetails] = useState<any>([]);
   const authContext = useContext(AuthContext);
   const getAllTeams = async () => {
@@ -24,19 +25,60 @@ const SingleTeamPage = () => {
     }
   };
 
+  const handleLeaveTeam = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}teams/leave/${params?.teamId}`,
+        {},
+        { withCredentials: true },
+      );
+      console.log(response.data.data);
+      router.push("/teams");
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  const handleDeleteTeam = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}teams/delete/${params?.teamId}`,
+        { withCredentials: true },
+      );
+      console.log(response.data.data);
+      router.push("/teams");
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
+
     getAllTeams();
   }, []);
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  ${teamDetails?.name}`} />
       <div className="flex w-[100%] justify-end pb-4">
-        <button className="inline-flex items-center justify-center bg-red py-2 text-center font-medium text-white hover:bg-opacity-90  lg:px-4 xl:px-4">
-          LEAVE TEAM
-        </button>
+        {authContext?.user?.username == teamDetails?.owner?.username ? (
+          <button
+            type="submit"
+            onClick={handleDeleteTeam}
+            className="inline-flex items-center justify-center bg-red py-2 text-center font-medium text-white hover:bg-opacity-90  lg:px-4 xl:px-4"
+          >
+            DELETE TEAM
+          </button>
+        ) : (
+          <button
+            type="submit"
+            onClick={handleLeaveTeam}
+            className="inline-flex items-center justify-center bg-red py-2 text-center font-medium text-white hover:bg-opacity-90  lg:px-4 xl:px-4"
+          >
+            LEAVE TEAM
+          </button>
+        )}
       </div>
       <div className="mb-6.5 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex items-center justify-between border-b border-stroke px-7 py-4 dark:border-strokedark">
@@ -73,7 +115,7 @@ const SingleTeamPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {teamDetails?.members?.map((member, index) => (
+                {teamDetails?.members?.map((member: any, index: any) => (
                   <tr key={index}>
                     <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                       <h5 className="font-medium text-black dark:text-white"></h5>
@@ -107,7 +149,7 @@ const SingleTeamPage = () => {
                           className={`border-b border-[#eee] px-4 py-5 dark:border-strokedark`}
                         >
                           <div className="flex items-center space-x-3.5">
-                            <button className="hover:text-primary">
+                            <div className="hover:text-primary">
                               <svg
                                 className="fill-current"
                                 width="18"
@@ -125,8 +167,8 @@ const SingleTeamPage = () => {
                                   fill=""
                                 />
                               </svg>
-                            </button>
-                            <button className="hover:text-primary">
+                            </div>
+                            <div className="hover:text-primary">
                               <svg
                                 className="fill-current"
                                 width="18"
@@ -152,8 +194,8 @@ const SingleTeamPage = () => {
                                   fill=""
                                 />
                               </svg>
-                            </button>
-                            <button className="hover:text-primary">
+                            </div>
+                            <div className="hover:text-primary">
                               <svg
                                 className="fill-current"
                                 width="18"
@@ -171,7 +213,7 @@ const SingleTeamPage = () => {
                                   fill=""
                                 />
                               </svg>
-                            </button>
+                            </div>
                           </div>
                         </td>
                       )}
