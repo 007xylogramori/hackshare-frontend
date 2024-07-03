@@ -4,11 +4,14 @@ import { useParams } from "next/navigation";
 import AuthContext from "@/context/Authcontext";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-const UploadResource = () => {
+interface UploadResourceProps {
+  pagename: string;
+}
+const UploadResource = ({pagename}:UploadResourceProps) => {
   const params = useParams<any>();
   const teamId = params?.teamId;
   const [file, setFile] = useState(null);
-  const [filetype, setFiletype] = useState("image");
+  const [filetype, setFiletype] = useState(pagename);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -60,7 +63,7 @@ const UploadResource = () => {
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
         <h3 className="font-medium text-black dark:text-white">
-          Upload Image
+          Upload {pagename}
         </h3>
       </div>
       <div className="p-7">
