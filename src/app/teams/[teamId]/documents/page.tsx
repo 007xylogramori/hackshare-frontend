@@ -5,10 +5,8 @@ import { useParams } from "next/navigation";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AuthContext from "@/context/Authcontext";
-import { useRouter } from "next/navigation";
 import { getResourcesByType } from "@/services/resourceServices";
 import UploadResource from "@/components/UploadResource/UploadResource";
-import ImageResource from "@/components/ImageResource/ImageResource";
 import DocumentResource from "@/components/DocumentResource/DocumentResource";
 
 
