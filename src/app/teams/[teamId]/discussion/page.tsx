@@ -44,7 +44,7 @@ const TeamDiscussionPage = () => {
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
           Discussions
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 gap-4">
          
           {
             discussions.map((discuss:any)=>{

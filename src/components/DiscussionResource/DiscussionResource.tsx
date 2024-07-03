@@ -1,4 +1,5 @@
-import React from "react";
+import { generateAIresponse } from "@/services/discussionServices";
+import React, { useState } from "react";
 interface DiscussionResourceProps {
   discuss: any;
   setDiscussions: any;
@@ -9,8 +10,37 @@ const DiscussionResource = ({
   setDiscussions,
   discussions,
 }: DiscussionResourceProps) => {
-  var createdAt = discuss.createdAt;
-  var date = new Date(createdAt);
+  const createdAt = discuss.createdAt;
+  const date = new Date(createdAt);
+  const [aiResponse, setAiResponse] = useState<string[]>();
+  const [generating, setgenerating] = useState(false);
+
+  function breakStringIntoArray(inputString: string) {
+    const pointsArray = inputString
+      .split(/\d+\.\s+/)
+      .filter((point) => point.trim() !== "");
+    return pointsArray.map((point) => point.trim());
+  }
+
+  const handleClickAI = async () => {
+    setgenerating(true);
+    try {
+      const response = await generateAIresponse(
+        discuss.title,
+        discuss.description,
+        discuss._id,
+        "123",
+      );
+      console.log(response);
+      const points = breakStringIntoArray(response);
+      setAiResponse(points);
+      console.log(points);
+      setgenerating(false);
+    } catch (error) {
+      setgenerating(false);
+      console.log(error);
+    }
+  };
 
   console.log();
 
@@ -58,7 +88,7 @@ const DiscussionResource = ({
               />
             </svg>
           </button>
-          <button title="ai">
+          <button title="ai" onClick={handleClickAI}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -89,9 +119,26 @@ const DiscussionResource = ({
           </button>
         </div>
       </div>
-      <div className="p-7 font-normal">
+      <div className="px-7 py-3 font-normal">
         <div>{discuss.description}</div>
       </div>
+      {generating && (
+        <div className="px-7 py-3 font-semibold text-green-500 ">
+          AI is Generating ...
+        </div>
+      )}
+      {aiResponse && (
+        <div className="font-normal">
+          <div className="px-6 font-bold text-green-500">
+            AI's generated response
+          </div>
+          <div className="font mx-4 my-4  rounded-md bg-blue-300  px-6 py-3 font-semibold text-blue-800">
+            {aiResponse.map((item, idx) => {
+              return <div key={idx}>{idx + 1 + " . " + item}</div>;
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

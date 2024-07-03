@@ -27,6 +27,32 @@ export const createPost = async (
     );
   }
 };
+export const generateAIresponse = async (
+  title: string,
+  description: string,
+  teamId: string,
+  postId : string
+) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}genAi/gen-response`,
+      {
+        title,
+        description,
+        postId,
+        teamId,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error: any) {
+    return "Erroring fetching AI response ! "
+  }
+};
+
 
 export const getPostsByTeam = async (teamId: string) => {
   const response = await axios.get(
