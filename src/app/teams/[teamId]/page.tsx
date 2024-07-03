@@ -244,7 +244,7 @@ const SingleTeamPage = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="posts" total="" teamId={params?.teamId} levelUp>
+        <CardDataStats title="discussion" total="" teamId={params?.teamId} levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"

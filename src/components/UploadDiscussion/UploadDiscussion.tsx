@@ -1,60 +1,39 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
-import AuthContext from "@/context/Authcontext";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-interface UploadResourceProps {
-  pagename: string;
-}
-const UploadResource = ({ pagename }: UploadResourceProps) => {
+import { createPost } from "@/services/discussionServices";
+
+const UploadDiscussion = () => {
   const params = useParams<any>();
   const teamId = params?.teamId;
-  const [file, setFile] = useState(null);
-  const [filetype, setFiletype] = useState(pagename);
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
-  const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState("");
-
-  const handleFileChange = (e: any) => {
-    setFile(e.target.files[0]);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    if (!file || !filetype) {
-      setError("File and file type are required.");
+    if (!title || !teamId) {
+      setError("Details Missing");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("filetype", filetype);
-    formData.append("description", description);
-    formData.append("teamId", teamId);
-
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}resources/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        },
-      );
+      const response = await createPost(title, description, link, teamId);
       console.log(response.data);
-      setSuccess("Resource uploaded successfully.");
-      setFile(null);
-      setFiletype("document");
+      setSuccess("Post uploaded successfully.");
       setDescription("");
+      setLink("");
+      setTitle("");
+      setError("");
     } catch (error: any) {
       console.log(error);
+      setSuccess("");
       setError("An error occurred while uploading the resource.");
     }
   };
@@ -63,7 +42,7 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
     <div className="rounded-sm border border-stroke bg-white  dark:border-strokedark dark:bg-boxdark">
       <div className="flex w-[100%] justify-between border-b border-stroke px-7 py-4 dark:border-strokedark">
         <h3 className=" font-bold text-black dark:text-white">
-          Upload {pagename}
+          Upload Discussion
         </h3>
         <button
           type="button"
@@ -122,18 +101,50 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
       </div>
       {open && (
         <div className="p-7">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="">
             {error && <p className=" py-1 text-red">{error}</p>}
             {success && <p className=" py-1 text-green-400">{success}</p>}
-            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-              <div className="w-full ">
-                <div className="relative">
-                  <input
-                    onChange={handleFileChange}
-                    className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                    type="file"
-                    name="uploadfile"
-                  />
+            <div className="grid w-[100%] gap-4 lg:grid-cols-2">
+              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                <div className="w-full ">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="Description"
+                  >
+                    Title
+                  </label>
+                  <div className="relative">
+                    <input
+                      value={title}
+                      onChange={(e) => {
+                        setTitle(e.target.value);
+                      }}
+                      className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      type="text"
+                      name="title"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                <div className="w-full ">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="Description"
+                  >
+                    Link
+                  </label>
+                  <div className="relative">
+                    <input
+                      value={link}
+                      onChange={(e) => {
+                        setLink(e.target.value);
+                      }}
+                      className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      type="text"
+                      name="title"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -142,7 +153,9 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
               <label
                 className="mb-3 block text-sm font-medium text-black dark:text-white"
                 htmlFor="Description"
-              ></label>
+              >
+                Description
+              </label>
               <div className="relative">
                 <span className="absolute left-4.5 top-4">
                   <svg
@@ -204,4 +217,4 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
   );
 };
 
-export default UploadResource;
+export default UploadDiscussion;
