@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // console.log(response.data.data, "not refreshed");
         setUser(response.data.data);
       } else {
-        signOut();
+        router.push("/auth/signin")
       }
     } catch (error) {
       signOut();

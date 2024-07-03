@@ -225,7 +225,7 @@ const SingleTeamPage = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Images" total="" teamId="0.43%" levelUp>
+        <CardDataStats title="images" total="" teamId={params?.teamId} levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -244,7 +244,7 @@ const SingleTeamPage = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Posts" total="" teamId="4.35%" levelUp>
+        <CardDataStats title="posts" total="" teamId={params?.teamId} levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -267,7 +267,7 @@ const SingleTeamPage = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Github-Repos" total="" teamId="" levelUp>
+        <CardDataStats title="github-Repos" total="" teamId={params?.teamId} levelUp>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -390,7 +390,7 @@ const SingleTeamPage = () => {
             </g>
           </svg>
         </CardDataStats>
-        <CardDataStats title="Documents" total="" teamId="" levelDown>
+        <CardDataStats title="documents" total="" teamId={params?.teamId} levelDown>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"

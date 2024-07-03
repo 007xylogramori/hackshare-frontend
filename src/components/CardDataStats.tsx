@@ -37,13 +37,13 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
       </div>
         <div className="py-2">
         <Link
-          href={`/teams/${teamId}/title`}
+          href={`/teams/${teamId.toLowerCase()}/${title}`}
           className="hidden items-center justify-center rounded-md border border-primary px-10 py-2 text-center font-medium text-primary hover:bg-opacity-90 dark:inline-flex lg:px-8 xl:px-10"
         >
           VIEW
         </Link>
         <Link
-          href={`/teams/${teamId}/title`}
+          href={`/teams/${teamId.toLowerCase()}/${title}`}
           className="inline-flex items-center justify-center bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 dark:hidden lg:px-8 xl:px-10"
         >
           VIEW
