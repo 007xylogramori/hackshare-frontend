@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React from "react";
 import Login from "@/components/Login";
+import Image from "next/image";
 
 const SignIn: React.FC = () => {
   return (
@@ -10,7 +11,14 @@ const SignIn: React.FC = () => {
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="px-26 py-17.5 text-center">
             <Link className="flex justify-center  gap-2" href="/">
-              <h1 className="text-2xl   font-bold">
+              <h1 className="text-2xl flex text-black dark:text-white  font-bold">
+              <Image
+              width={32}
+              height={32}
+              src={"/images/logo/logo-icon.svg"}
+              alt="Logo"
+              priority
+            />
                 <span className="p-2">HackShare</span>
               </h1>
             </Link>

@@ -9,6 +9,8 @@ import { getResourcesByType } from "@/services/resourceServices";
 import UploadResource from "@/components/UploadResource/UploadResource";
 import DocumentResource from "@/components/DocumentResource/DocumentResource";
 import UploadRepo from "@/components/UploadRepo/UploadRepo";
+import { getAllRepos } from "@/services/githubRepo";
+import GithubResource from "@/components/GithubResource/GithubResource";
 
 
 const TeamImagesPage = () => {
@@ -22,16 +24,17 @@ const TeamImagesPage = () => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
-    const fetchImages = async () => {
+    const fetchGithubRepos = async () => {
       try {
-        const documentData = await getResourcesByType(params?.teamId, "document");
+        const documentData = await getAllRepos(params?.teamId)
         setDocuments(documentData);
+        console.log(documentData)
       } catch (error: any) {
         setError("error fetching documents");
         console.log(error);
       }
     };
-    fetchImages();
+    fetchGithubRepos();
   }, []);
 
   return (
@@ -42,9 +45,12 @@ const TeamImagesPage = () => {
       {/* image data */}
       <div className="py-4">
       <h2 className="text-2xl dark:text-white text-black font-bold mb-4">Github Repositories</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-        {documents.map((document:any) => (
-          <DocumentResource setDocuments={setDocuments} documents={document} document={document} key={document?._id} />
+      <div className=" w-[100%] grid grid-cols-1 gap-2 ">
+
+       
+
+        {documents.map((document:any,idx) => (
+          <GithubResource repo={document} key={idx}/>
         ))}
       </div>
     </div>

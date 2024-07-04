@@ -12,7 +12,7 @@ const SingleTeamPage = () => {
   const router = useRouter();
   const [teamDetails, setTeamDetails] = useState<any>([]);
   const authContext = useContext(AuthContext);
-  const getAllTeams = async () => {
+  const getTeam = async () => {
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}teams/${params?.teamId}`,
@@ -56,7 +56,7 @@ const SingleTeamPage = () => {
       authContext?.setUserUsingtokens();
     }
 
-    getAllTeams();
+    getTeam();
   }, []);
   return (
     <DefaultLayout>
