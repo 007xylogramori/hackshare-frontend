@@ -14,8 +14,6 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   title,
   total,
   teamId,
-  levelUp,
-  levelDown,
   children,
 }) => {
   return (

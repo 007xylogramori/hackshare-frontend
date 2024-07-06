@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 @layer base {
     body {
         @apply relative z-1 bg-whiten font-satoshi text-base font-normal text-body;

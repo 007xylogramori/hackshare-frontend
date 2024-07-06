@@ -9,7 +9,7 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
+    <ClickOutside onClick={() => setDropdownOpen(false)} className="relative z-99">
       <Link
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="flex items-center gap-4"
