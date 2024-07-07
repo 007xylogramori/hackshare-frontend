@@ -11,7 +11,7 @@ export default function Home() {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
-  }, []);
+  }, [authContext]);
 
   return (
     <>

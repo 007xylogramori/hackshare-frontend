@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useContext, useEffect, useState } from "react";
@@ -16,7 +17,7 @@ export default function Home() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/community/${params?.postId}/comments`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/${params?.postId}/comments`,
         {
           content: comment,
         },
@@ -30,13 +31,13 @@ export default function Home() {
       console.log(error);
     }
   };
-  useEffect(() => {
+  useEffect(() => { 
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
     const fetchPosts = async () => {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/community/get-one/${params?.postId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/get-one/${params?.postId}`,
         {
           withCredentials: true,
         },

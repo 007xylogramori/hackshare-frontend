@@ -10,7 +10,7 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/community/get-all",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/get-all`,
         {
           withCredentials: true,
         },

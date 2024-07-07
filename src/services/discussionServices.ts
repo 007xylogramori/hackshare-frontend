@@ -39,8 +39,8 @@ export const generateAIresponse = async (
       {
         title,
         description,
-        postId,
         teamId,
+        postId,
       },
       {
         withCredentials: true,

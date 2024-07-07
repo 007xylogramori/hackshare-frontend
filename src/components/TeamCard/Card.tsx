@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Card = ({team}) => {
+const Card = ({team}:any) => {
     console.log(team);
   return (
     <div className="rounded-sm border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">

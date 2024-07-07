@@ -130,7 +130,7 @@ const DiscussionResource = ({
       {aiResponse && (
         <div className="font-normal">
           <div className="px-6 font-bold text-green-500">
-            AI's generated response
+            AI generated response
           </div>
           <div className="font mx-4 my-4  rounded-md bg-blue-300  px-6 py-3 font-semibold text-blue-800">
             {aiResponse.map((item, idx) => {

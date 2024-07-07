@@ -194,7 +194,7 @@ export default function Home() {
                 Easy to use
               </h3>
               <p className="text-gray-700 pr-8 pt-4 text-sm leading-relaxed md:pr-16">
-                Develop with local database that's as capable as cloud DBs. Cut
+                Develop with local database thats as capable as cloud DBs. Cut
                 out your API and let Homebase sync state and help you manage
                 data flow.
               </p>
@@ -205,7 +205,7 @@ export default function Home() {
                 More collaborative
               </h3>
               <p className="text-gray-700 pr-8 pt-4 text-sm leading-relaxed md:pr-16">
-                When database is responsible for resolving conflicts you don't
+                When database is responsible for resolving conflicts you dont
                 have to solve realtime collaboration or offline support.
               </p>
             </div>
