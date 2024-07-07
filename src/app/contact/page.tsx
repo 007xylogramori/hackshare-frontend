@@ -3,7 +3,6 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useContext, useEffect } from "react";
 import AuthContext from "@/context/Authcontext";
 import { useRouter } from "next/navigation";
-import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 export default function Home() {
   const authContext = useContext(AuthContext);
   const router = useRouter();
@@ -72,7 +71,7 @@ export default function Home() {
                   />
                 </div>
 
-                <SelectGroupOne />
+              
 
                 <div className="mb-6">
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">

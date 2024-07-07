@@ -3,7 +3,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/Authcontext";
 import { useParams, useRouter } from "next/navigation";
-import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
+import SelectGroupOne from "@/components/Sidebar/SelectGroup/SelectGroupOne";
 import Link from "next/link";
 import CommunityPostFormModal from "@/components/CommunityPostForm/CommunityPostFormModal";
 export default function Home() {
