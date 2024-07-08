@@ -4,27 +4,27 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-const PostList = () => {
+const PostList = ({searchTags}:any) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/get-all`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/get-all?tags=${searchTags}`,
         {
           withCredentials: true,
         },
-      );
-      console.log(response.data.data)
-      setPosts(response.data.data);
+      ).catch((e)=>{console.log(e)});
+      console.log(response?.data.data)
+      setPosts(response?.data.data);
     };
 
     fetchPosts();
-  }, []);
+  }, [searchTags]);
 
   return (
     <div>
-      <h2>Community Posts</h2>
+      <h2 className="px-4">Community Posts</h2>
       <div>
         {posts.map((post: any) => (
           <div key={post._id} className="mx-3 my-4 rounded-lg bg-white px-10 py-6 shadow-md dark:bg-black dark:text-white">

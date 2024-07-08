@@ -6,6 +6,112 @@ import CommunityPostFormModal from "@/components/CommunityPostForm/CommunityPost
 import PostList from "@/components/CommunityPosts/CommunityPosts";
 export default function Home() {
   const [show, setShow] = useState(false);
+  const [appliedTags, setAppliedTags] = useState<string[]>([]);
+  const [searchTags, setSearchTags] = useState("");
+  const tags = [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Angular",
+    "Vue",
+    "Next.js",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "SQL",
+    "GraphQL",
+    "REST",
+    "API",
+    "TypeScript",
+    "Webpack",
+    "Babel",
+    "ES6",
+    "Redux",
+    "Sass",
+    "LESS",
+    "Bootstrap",
+    "Tailwind CSS",
+    "Material-UI",
+    "Chakra UI",
+    "Testing",
+    "Jest",
+    "Cypress",
+    "Mocha",
+    "Chai",
+    "Jasmine",
+    "Enzyme",
+    "Cucumber",
+    "Git",
+    "GitHub",
+    "Version Control",
+    "CI/CD",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "GCP",
+    "Firebase",
+    "Serverless",
+    "Microservices",
+    "Agile",
+    "Scrum",
+    "Kanban",
+    "Design Patterns",
+    "SOLID",
+    "Clean Code",
+    "Refactoring",
+    "DevOps",
+    "Continuous Integration",
+    "Continuous Deployment",
+    "Automation",
+    "Frontend",
+    "Backend",
+    "Full Stack",
+    "Progressive Web Apps",
+    "Single Page Applications",
+    "Web Performance",
+    "Security",
+    "OAuth",
+    "JWT",
+    "Accessibility",
+    "SEO",
+    "WebSockets",
+    "GraphQL",
+    "Apollo",
+    "Relay",
+    "Redux Saga",
+    "Redux Thunk",
+    "MobX",
+    "Formik",
+    "React Hook Form",
+    "Formik",
+    "Storybook",
+    "Next Auth",
+    "Prisma",
+    "Sequelize",
+    "TypeORM",
+    "Hapi",
+    "NestJS",
+    "Svelte",
+    "Sapper",
+    "Gatsby",
+    "Eleventy",
+    "Parcel",
+    "Rollup",
+    "Vite",
+    "Nx",
+    "Hugo",
+    "Jekyll",
+    "WordPress",
+    "Drupal",
+    "Joomla",
+    "Contentful",
+    "Strapi",
+    "Sanity",
+    "Netlify",
+    "Vercel",
+  ];
   const authContext = useContext(AuthContext);
   useEffect(() => {
     if (authContext?.user == null) {
@@ -66,93 +172,76 @@ export default function Home() {
         <div className="my-3 px-4">
           Tags :{" "}
           <div className="no-scrollbar flex gap-2 overflow-x-auto px-2 py-2">
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              Hackathon
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              Development
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              Github
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              AWSServer
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              Hosting
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
-            <div className="bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3">
-              DEV
-            </div>
+            {tags.map((item, idx) => {
+              return (
+                <div
+                  key={idx}
+                  onClick={(e: any) => {
+                    setSearchTags(searchTags + item + ",");
+                    setAppliedTags([...appliedTags, item]);
+                  }}
+                  className="cursor-pointer text-nowrap bg-meta-3 px-2 py-1 text-white dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3"
+                >
+                  {item}
+                </div>
+              );
+            })}
           </div>
         </div>
+        {appliedTags.length > 0 && (
+          <div className="my-3 px-4">
+            Applied Tags :{" "}
+            <div className="no-scrollbar flex gap-2 overflow-x-auto px-2 py-2">
+              {appliedTags.map((tag, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className=" bg-blue flex   items-center gap-2 text-nowrap border-[1px] bg-gray-3 px-2 py-1 dark:border dark:border-meta-3 dark:bg-transparent dark:text-meta-3"
+                  >
+                    <p>{tag}</p>
+
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => {
+                        const x = appliedTags
+                          .slice(0, idx)
+                          .concat(
+                            appliedTags.slice(idx + 1, appliedTags.length),
+                          );
+                        setSearchTags(x.join(","));
+                        setAppliedTags(x);
+                      }}
+                    >
+                      {" "}
+                      <svg
+                        viewBox="0 0 512 512"
+                        fill="currentColor"
+                        height="1.1em"
+                        width="1.1em"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={32}
+                          d="M368 368L144 144M368 144L144 368"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {show && (
           <div className="w-[100%]">
             <CommunityPostFormModal setShow={setShow} />
           </div>
         )}
-        <PostList />
+        <PostList searchTags={searchTags} />
       </DefaultLayout>
     </>
   );
