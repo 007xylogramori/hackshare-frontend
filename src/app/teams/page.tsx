@@ -48,9 +48,6 @@ const TeamPage = () => {
       setSuccess("Joined successfully");
     } catch (error: any) {
       console.log(error.response?.data);
-      setError(
-        error.response?.data?.message || "Invalid Credentials. Please recheck",
-      );
       console.log(error);
     }
   };
