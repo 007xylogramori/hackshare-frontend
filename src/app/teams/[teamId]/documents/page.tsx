@@ -8,46 +8,70 @@ import AuthContext from "@/context/Authcontext";
 import { getResourcesByType } from "@/services/resourceServices";
 import UploadResource from "@/components/UploadResource/UploadResource";
 import DocumentResource from "@/components/DocumentResource/DocumentResource";
-
+import Loader from "@/components/common/Loader";
 
 const TeamImagesPage = () => {
   const params = useParams<any>();
   const authContext = useContext(AuthContext);
-
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
-    const fetchImages = async () => {
+    const fetchDocuments = async () => {
       try {
-        const documentData = await getResourcesByType(params?.teamId, "document");
+        const documentData = await getResourcesByType(
+          params?.teamId,
+          "document",
+        );
         setDocuments(documentData);
       } catch (error: any) {
-        setError("error fetching documents");
+        setError(true);
         console.log(error);
       }
     };
-    fetchImages();
+    fetchDocuments();
   }, []);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / documents`} />
-      {/* image upload */}
-      <UploadResource pagename={"document"}/>
-      {/* image data */}
+      {/* document upload */}
+      <UploadResource pagename={"document"} />
+      {/* document data */}
       <div className="py-4">
-      <h2 className="text-2xl dark:text-white text-black font-bold mb-4">Document Resource Gallery</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-        {documents.map((document:any) => (
-          <DocumentResource setDocuments={setDocuments} documents={document} document={document} key={document?._id} />
-        ))}
+        <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
+          Document Resource Gallery
+        </h2>
+
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <div className="flex w-[100%] flex-col items-center justify-center gap-1">
+            <Image
+              width={400}
+              height={400}
+              src={"/error.png"}
+              alt="error pic"
+            />
+            <h1 className="text-2xl font-bold">Something went wrong !</h1>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+            {documents.map((document: any) => (
+              <DocumentResource
+                setDocuments={setDocuments}
+                documents={document}
+                document={document}
+                key={document?._id}
+              />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-      
     </DefaultLayout>
   );
 };

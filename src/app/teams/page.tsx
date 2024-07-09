@@ -5,19 +5,16 @@ import Card from "@/components/TeamCard/Card";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "@/context/Authcontext";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Loader from "@/components/common/Loader";
 const TeamPage = () => {
-
   const [teamDetails, setTeamDetails] = useState([]);
   const authContext = useContext(AuthContext);
-  const router = useRouter();
-
-  const [error, setError] = useState("");
-  const [errorCreate, setErrorCreate] = useState("");
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [success, setSuccess] = useState("");
   const [successCreate, setSuccessCreate] = useState("");
+  const [loading,setLoading]=useState(false);
 
   const handleJoinTeam = async (event: FormEvent) => {
     event.preventDefault();
@@ -31,14 +28,8 @@ const TeamPage = () => {
       console.log(response.data);
       if (response.status === 200) {
       }
-      setSuccessCreate("Joined successfully")
-      setErrorCreate("");
     } catch (error: any) {
       console.log(error.response?.data);
-      setErrorCreate(
-        error.response?.data?.message || "Invalid Credentials. Please recheck",
-      );
-      setSuccessCreate("")
       console.log(error);
     }
   };
@@ -54,7 +45,7 @@ const TeamPage = () => {
       console.log(response.data);
       if (response.status === 200) {
       }
-      setSuccess("Joined successfully")
+      setSuccess("Joined successfully");
     } catch (error: any) {
       console.log(error.response?.data);
       setError(
@@ -64,6 +55,7 @@ const TeamPage = () => {
     }
   };
   const getAllTeams = async () => {
+    setLoading(true)
     try {
       console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
       const response = await axios.get(
@@ -75,6 +67,7 @@ const TeamPage = () => {
     } catch (error: any) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -83,16 +76,14 @@ const TeamPage = () => {
     }
     getAllTeams();
     console.log(authContext?.user);
-  }, [success,successCreate,authContext]);
+  }, [success, successCreate, authContext]);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName="My Teams" />
-      <div className="mb-5.5 grid gap-4 grid-cols-1 md:grid-cols-2">
-        <div className="px-7 py-2  rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="rounded-sm border  border-stroke bg-white px-7 py-2 shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleCreateTeam} className=" min-w-[100%]">
-            {successCreate && <p>success</p>}
-            {errorCreate && <p>error</p>}
             <div className="mb-3.5 flex w-[100%] items-end gap-2 ">
               <div className="w-[100%] ">
                 <label className="text mb-3 block font-medium text-black dark:text-white ">
@@ -100,7 +91,9 @@ const TeamPage = () => {
                 </label>
                 <input
                   value={name}
-                  onChange={(e)=>{setName(e.target.value)}}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                   type="text"
                   placeholder="Enter password"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -115,10 +108,8 @@ const TeamPage = () => {
             </div>
           </form>
         </div>
-        <div className="px-7  rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark py-2">
+        <div className="rounded-sm  border border-stroke bg-white px-7 py-2 shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleJoinTeam} className=" min-w-[100%]">
-            {success && <p>success</p>}
-            {error && <p>error</p>}
             <div className="mb-3.5 flex w-[100%] items-end gap-2 ">
               <div className="w-[100%] ">
                 <label className="text mb-3 block font-medium text-black dark:text-white ">
@@ -126,7 +117,9 @@ const TeamPage = () => {
                 </label>
                 <input
                   value={code}
-                  onChange={(e)=>{setCode(e.target.value)}}
+                  onChange={(e) => {
+                    setCode(e.target.value);
+                  }}
                   type="password"
                   placeholder="Enter password"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -141,16 +134,33 @@ const TeamPage = () => {
             </div>
           </form>
         </div>
-       
       </div>
 
-     
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        {teamDetails.map((team, index) => {
-          return <Card team={team} key={index} />;
-        })}
-      </div>
+      {loading? <Loader/> : teamDetails.length > 0 ? (
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 ">
+          {teamDetails.map((team, index) => {
+            return <Card team={team} key={index} />;
+          })}
+        </div>
+      ) : (
+        <div className="flex my-10 w-[100%] flex-col items-center justify-center">
+          <Image
+            className="text-white dark:hidden dark:text-white"
+            src={"/0team.svg"}
+            alt="no team"
+            height={100}
+            width={100}
+          />
+          <Image
+            className="hidden dark:block dark:text-white"
+            src={"/0teamdark.svg"}
+            alt="no team"
+            height={100}
+            width={100}
+          />
+          No Teams Added/Joined
+        </div>
+      )}
     </DefaultLayout>
   );
 };

@@ -6,16 +6,18 @@ import AuthContext from "@/context/Authcontext";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
+import Image from "next/image";
 export default function Home() {
   const authContext = useContext(AuthContext);
   const params = useParams<any>();
   const [post, setPost] = useState<any>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [comment, setComment] = useState("");
   const [added, isAdded] = useState(false);
   const router = useRouter();
+
   const handleAddComment = async (e: any) => {
-    
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -58,7 +60,7 @@ export default function Home() {
         },
       );
       console.log(response.data.data);
-      router.push("/community")
+      router.push("/community");
     } catch (error) {
       console.log(error);
     }
@@ -68,16 +70,22 @@ export default function Home() {
       authContext?.setUserUsingtokens();
     }
     const fetchPosts = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/get-one/${params?.postId}`,
-        {
-          withCredentials: true,
-        },
-      );
-      console.log(response.data.data);
-      setPost(response.data.data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}community/get-one/${params?.postId}`,
+          {
+            withCredentials: true,
+          },
+        );
+        console.log(response?.data.data);
+        setPost(response?.data.data);
+        setLoading(false);
+        setError(false);
+      } catch (error) {
+        setLoading(false);
+        setError(true);
+      }
     };
 
     fetchPosts();
@@ -86,29 +94,39 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
+        {error && (
+          <div className="flex w-[100%] flex-col items-center justify-center gap-1">
+            <Image
+              width={400}
+              height={400}
+              src={"/error.png"}
+              alt="error pic"
+            ></Image>
+            <h1 className="text-2xl font-bold">Something went wrong !</h1>
+          </div>
+        )}
         {loading ? (
           <Loader />
         ) : (
           <div
             key={post?._id}
-            className="mx-3 mt-4 rounded-lg w-full bg-white px-10 py-6 text-black shadow-md dark:bg-black dark:text-white"
+            className={!error?`mx-3 mt-4 w-full rounded-lg bg-white px-10 py-6 text-black shadow-md dark:bg-black dark:text-white`:"hidden"}
           >
-            <div className="items-center  justify-between w-full md:flex">
-              <div className="flex justify-between w-full">
-              <span className="text-gray-600 font-light">
-                {new Date(post?.createdAt).toLocaleString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </span>
-             
+            <div className="w-full  items-center justify-between md:flex">
+              <div className="flex w-full justify-between">
+                <span className="text-gray-600 font-light">
+                  {new Date(post?.createdAt).toLocaleString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </span>
               </div>
               <div className="bg-gray-600 text-gray-100 hover:bg-gray-500 flex gap-1 rounded py-1 font-bold">
                 {post?.tags?.map((i: string, idx: any) => {
                   return (
                     <div
-                      className=" dark:border-primary-400  dark:text-primary-400 rounded-md border border-meta-3 text-nowrap px-2 py-1 text-meta-3"
+                      className=" dark:border-primary-400  dark:text-primary-400 text-nowrap rounded-md border border-meta-3 px-2 py-1 text-meta-3"
                       key={idx}
                     >
                       {i}
@@ -122,18 +140,25 @@ export default function Home() {
                 <div className="text-gray-700 hover:text-gray-600 text-2xl font-bold">
                   {post?.title}
                   <h1 className="text-gray-700 text-sm font-bold">
-                      {post?.user?.username}
-                    </h1> 
+                    {post?.user?.username}
+                  </h1>
                 </div>
-                <div className="flex gap-2 mt-2 md:mt-0 items-center ">
-                 
-                 {(post?.user?._id==authContext?.user?._id)?<div onClick={handleDeletePost} className=" bg-red rounded-md px-2 py-1 text-white cursor-pointer">DELETE</div>:""}
-                 
+                <div className="mt-2 flex items-center gap-2 md:mt-0 ">
+                  {post?.user?._id == authContext?.user?._id ? (
+                    <div
+                      onClick={handleDeletePost}
+                      className=" cursor-pointer rounded-md bg-red px-2 py-1 text-white"
+                    >
+                      DELETE
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <p
                 dangerouslySetInnerHTML={{ __html: post?.content }}
-                className="text-gray-600 py-2 mt-2"
+                className="text-gray-600 mt-2 py-2"
               ></p>
             </div>
             <div className="mt-4 flex items-center justify-between">

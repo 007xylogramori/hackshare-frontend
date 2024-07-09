@@ -1,19 +1,20 @@
 "use client";
-import Image from 'next/image';
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AuthContext from "@/context/Authcontext";
-import { useRouter } from "next/navigation";
 import { getResourcesByType } from "@/services/resourceServices";
 import UploadResource from "@/components/UploadResource/UploadResource";
-import ImageResource from '@/components/ImageResource/ImageResource';
+import ImageResource from "@/components/ImageResource/ImageResource";
+import Loader from "@/components/common/Loader";
+import Image from "next/image";
 const TeamImagesPage = () => {
   const params = useParams<any>();
   const authContext = useContext(AuthContext);
-  
-  const [error, setError] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -21,34 +22,55 @@ const TeamImagesPage = () => {
       authContext?.setUserUsingtokens();
     }
     const fetchImages = async () => {
-        try {
-          const imagesData = await getResourcesByType(params?.teamId, 'image');
-          setImages(imagesData);
-        } catch (error:any) {
-            setError("error fetching images")
-          console.log(error)
-        }
-      };
+      setLoading(true);
+      try {
+        const imagesData = await getResourcesByType(params?.teamId, "image");
+        setImages(imagesData);
+        setError(false);
+      } catch (error: any) {
+        setError(true);
+        console.log(error);
+      }
+      setLoading(false);
+    };
     fetchImages();
-    
   }, []);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / images`} />
       {/* image upload */}
-        <UploadResource pagename={"image"}/>
+      <UploadResource pagename={"image"} />
       {/* image data */}
       <div className="py-4">
-      <h2 className="text-2xl dark:text-white text-black font-bold mb-4">Image Resource Gallery</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-        {images.map((image:any) => (
-          <ImageResource setImages={setImages} images={images} image={image} key={image?._id} />
-        ))}
+        <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
+          Image Resource Gallery
+        </h2>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <div className="flex w-[100%] flex-col items-center justify-center gap-1">
+            <Image
+              width={400}
+              height={400}
+              src={"/error.png"}
+              alt="error pic"
+            />
+            <h1 className="text-2xl font-bold">Something went wrong !</h1>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4  sm:grid-cols-2 lg:grid-cols-3 ">
+            {images.map((image: any) => (
+              <ImageResource
+                setImages={setImages}
+                images={images}
+                image={image}
+                key={image?._id}
+              />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-     
-      
     </DefaultLayout>
   );
 };

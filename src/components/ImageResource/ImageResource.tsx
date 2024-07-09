@@ -27,7 +27,7 @@ const ImageResource = ({ image ,setImages,images }: ImageResourceProps) => {
         Uploaded by: {image?.user.fullName}
       </p>
       <p className="text-gray-500 mt-1 text-xs">Filename: {image?.filename}</p>
-      <div className="flex justify-between py-2">
+      <div className="flex gap-5 py-2">
         <div className="mt-2">
           <Link
             href={`${image?.url}`}

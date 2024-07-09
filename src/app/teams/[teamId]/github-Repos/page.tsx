@@ -5,34 +5,34 @@ import { useParams } from "next/navigation";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AuthContext from "@/context/Authcontext";
-import { getResourcesByType } from "@/services/resourceServices";
-import UploadResource from "@/components/UploadResource/UploadResource";
-import DocumentResource from "@/components/DocumentResource/DocumentResource";
 import UploadRepo from "@/components/UploadRepo/UploadRepo";
 import { getAllRepos } from "@/services/githubRepo";
 import GithubResource from "@/components/GithubResource/GithubResource";
-
+import Loader from "@/components/common/Loader";
 
 const TeamImagesPage = () => {
   const params = useParams<any>();
   const authContext = useContext(AuthContext);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
   const [documents, setDocuments] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
     }
     const fetchGithubRepos = async () => {
+      setLoading(true);
       try {
-        const documentData = await getAllRepos(params?.teamId)
+        const documentData = await getAllRepos(params?.teamId);
         setDocuments(documentData);
-        console.log(documentData)
+        console.log(documentData);
+        setError(false);
       } catch (error: any) {
-        setError("error fetching documents");
         console.log(error);
+        setError(true);
       }
+      setLoading(false);
     };
     fetchGithubRepos();
   }, []);
@@ -41,20 +41,32 @@ const TeamImagesPage = () => {
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / documents`} />
       {/* image upload */}
-      <UploadRepo/>
+      <UploadRepo />
       {/* image data */}
       <div className="py-4">
-      <h2 className="text-2xl dark:text-white text-black font-bold mb-4">Github Repositories</h2>
-      <div className=" w-[100%] grid grid-cols-1 gap-2 ">
-
-       
-
-        {documents.map((document:any,idx) => (
-          <GithubResource repo={document} key={idx}/>
-        ))}
+        <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
+          Github Repositories
+        </h2>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <div className="flex w-[100%] flex-col items-center justify-center gap-1">
+            <Image
+              width={400}
+              height={400}
+              src={"/error.png"}
+              alt="error pic"
+            />
+            <h1 className="text-2xl font-bold">Something went wrong !</h1>
+          </div>
+        ) : (
+          <div className=" grid w-[100%] grid-cols-1 gap-2 ">
+            {documents.map((document: any, idx) => (
+              <GithubResource repo={document} key={idx} />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-      
     </DefaultLayout>
   );
 };

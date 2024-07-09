@@ -126,7 +126,7 @@ export default function Home() {
           <div className="px-4 py-2   sm:block">
             <form action="https://formbold.com/s/unique_form_id" method="POST">
               <div className="relative">
-                <button className="absolute left-0 top-1/2 -translate-y-1/2">
+                <button title="op" className="absolute left-0 top-1/2 -translate-y-1/2">
                   <svg
                     className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
                     width="20"
