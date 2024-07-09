@@ -4,7 +4,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/Authcontext";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
 export default function Home() {
   const authContext = useContext(AuthContext);
@@ -13,7 +13,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [comment, setComment] = useState("");
   const [added, isAdded] = useState(false);
+  const router = useRouter();
   const handleAddComment = async (e: any) => {
+    
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -43,6 +45,20 @@ export default function Home() {
       );
       console.log(response.data.data);
       isAdded(!added);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeletePost = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}community/delete/${params?.postId}`,
+        {
+          withCredentials: true,
+        },
+      );
+      console.log(response.data.data);
+      router.push("/community")
     } catch (error) {
       console.log(error);
     }
@@ -92,7 +108,7 @@ export default function Home() {
                 {post?.tags?.map((i: string, idx: any) => {
                   return (
                     <div
-                      className=" dark:border-primary-400  dark:text-primary-400 rounded-md border border-meta-3 px-2 py-1 text-meta-3"
+                      className=" dark:border-primary-400  dark:text-primary-400 rounded-md border border-meta-3 text-nowrap px-2 py-1 text-meta-3"
                       key={idx}
                     >
                       {i}
@@ -104,25 +120,20 @@ export default function Home() {
             <div className="mt-2 py-2">
               <div className="justify-between md:flex">
                 <div className="text-gray-700 hover:text-gray-600 text-2xl font-bold">
-                  {post?.title} 
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <a className="flex items-center" href="#">
-                    <img
-                      className="mx-4 hidden h-10 w-10 rounded-full object-cover sm:block"
-                      src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80"
-                      alt="avatar"
-                    />
-                    <h1 className="text-gray-700 font-bold">
+                  {post?.title}
+                  <h1 className="text-gray-700 text-sm font-bold">
                       {post?.user?.username}
-                    </h1>
-                  </a>
+                    </h1> 
+                </div>
+                <div className="flex gap-2 mt-2 md:mt-0 items-center ">
+                 
+                 {(post?.user?._id==authContext?.user?._id)?<div onClick={handleDeletePost} className=" bg-red rounded-md px-2 py-1 text-white cursor-pointer">DELETE</div>:""}
                  
                 </div>
               </div>
               <p
                 dangerouslySetInnerHTML={{ __html: post?.content }}
-                className="text-gray-600 mt-2"
+                className="text-gray-600 py-2 mt-2"
               ></p>
             </div>
             <div className="mt-4 flex items-center justify-between">
@@ -151,7 +162,7 @@ export default function Home() {
             <div className="my-4 px-4   py-4">
               <div className="flex justify-between gap-2 border-b border-stroke py-2 font-semibold">
                 <span>DISCUSS 📰 ({post?.comments?.length})</span>
-                <span onClick={handleLikeChange}>
+                <span onClick={handleLikeChange} className="cursor-pointer">
                   {post?.likes.includes(authContext?.user?._id)
                     ? "Liked"
                     : "Like"}
