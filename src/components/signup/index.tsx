@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
+import { ToastSuccess, ToastError } from "@/services/toastNotification";
 import { useRouter } from "next/navigation";
 const Signup = () => {
   const router = useRouter();
@@ -22,9 +23,11 @@ const Signup = () => {
         { withCredentials: true },
       );
       if (response.status === 201) {
+        ToastSuccess("Account Created. please Login to start");
         router.push("/auth/signin");
       }
     } catch (error: any) {
+      ToastError("Account Creation Failed");
       console.log(error.response);
       setError(
         error.response?.data?.message || "An error occurred. Please try again.",

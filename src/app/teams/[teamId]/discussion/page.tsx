@@ -16,6 +16,7 @@ const TeamDiscussionPage = () => {
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [added, setAdded] = useState(false);
   const [discussions, setDiscussions] = useState([]);
 
   useEffect(() => {
@@ -36,13 +37,13 @@ const TeamDiscussionPage = () => {
       setLoading(false);
     };
     fetchPosts();
-  }, []);
+  }, [added]);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / discussion`} />
       {/* discuss upload */}
-      <UploadDiscussion />
+      <UploadDiscussion added={added} setAdded={setAdded} />
       {/* discuss data */}
       <div className="py-4">
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
@@ -66,6 +67,7 @@ const TeamDiscussionPage = () => {
             {discussions.map((discuss: any) => {
               return (
                 <DiscussionResource
+                  
                   discuss={discuss}
                   setDiscussions={setDiscussions}
                   discussions={discussions}

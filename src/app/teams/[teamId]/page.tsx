@@ -9,6 +9,7 @@ import axios from "axios";
 import CardDataStats from "@/components/CardDataStats";
 import Loader from "@/components/common/Loader";
 import Image from "next/image";
+import { ToastError } from "@/services/toastNotification";
 const SingleTeamPage = () => {
   const params = useParams<any>();
   const router = useRouter();
@@ -27,6 +28,7 @@ const SingleTeamPage = () => {
       setTeamDetails(response.data.data);
       setError(false);
     } catch (error: any) {
+      ToastError("Could not get Team");
       setError(true);
       console.log(error);
     }

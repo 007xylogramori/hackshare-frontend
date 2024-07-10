@@ -9,12 +9,14 @@ import UploadResource from "@/components/UploadResource/UploadResource";
 import ImageResource from "@/components/ImageResource/ImageResource";
 import Loader from "@/components/common/Loader";
 import Image from "next/image";
+import { ToastError } from "@/services/toastNotification";
 const TeamImagesPage = () => {
   const params = useParams<any>();
   const authContext = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [added, setAdded] = useState(false);
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -30,17 +32,18 @@ const TeamImagesPage = () => {
       } catch (error: any) {
         setError(true);
         console.log(error);
+        ToastError("Error Occured")
       }
       setLoading(false);
     };
     fetchImages();
-  }, []);
+  }, [added]);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / images`} />
       {/* image upload */}
-      <UploadResource pagename={"image"} />
+      <UploadResource added={added} setAdded={setAdded} pagename={"image"} />
       {/* image data */}
       <div className="py-4">
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">

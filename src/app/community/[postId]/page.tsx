@@ -7,6 +7,7 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import Image from "next/image";
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
 export default function Home() {
   const authContext = useContext(AuthContext);
   const params = useParams<any>();
@@ -31,8 +32,10 @@ export default function Home() {
       );
       console.log(response.data.data);
       isAdded(!added);
+      ToastSuccess("Comment Added")
     } catch (error) {
       console.log(error);
+      ToastError("Failed to Add Comment")
     }
   };
 
@@ -60,9 +63,11 @@ export default function Home() {
         },
       );
       console.log(response.data.data);
+      ToastSuccess("Post Deleted")
       router.push("/community");
     } catch (error) {
       console.log(error);
+      ToastError("Failed . Post Not Deleted")
     }
   };
   useEffect(() => {

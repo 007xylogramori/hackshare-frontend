@@ -3,15 +3,16 @@ import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
 import { createPost } from "@/services/discussionServices";
 import { addGithubRepo } from "@/services/resourceServices";
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
 
-const UploadRepo = () => {
+const UploadRepo = ({setAdded,added}:any) => {
   const params = useParams<any>();
   const teamId = params?.teamId;
   const [repoUrl, setrepoUrl] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [open, setOpen] = useState(false);
-
+  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
@@ -25,13 +26,16 @@ const UploadRepo = () => {
     try {
       const response = await addGithubRepo(teamId,repoUrl);
       console.log(response);
-      setSuccess("RepoUrl uploaded successfully.");
       setrepoUrl("")
       setError("");
+      ToastSuccess("RepoUrl uploaded successfully.")
+      setOpen(false);
+      setAdded(!added)
     } catch (error: any) {
       console.log(error);
       setSuccess("");
       setError("An error occurred while uploading the resource.");
+      ToastError("Error Occured")
     }
   };
 

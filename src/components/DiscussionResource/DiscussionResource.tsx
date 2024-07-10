@@ -15,6 +15,7 @@ const DiscussionResource = ({
   const [aiResponse, setAiResponse] = useState<string[]>();
   const [generating, setgenerating] = useState(false);
 
+
   function breakStringIntoArray(inputString: string) {
     const pointsArray = inputString
       .split(/\d+\.\s+/)

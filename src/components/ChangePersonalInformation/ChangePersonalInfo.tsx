@@ -1,4 +1,5 @@
 import AuthContext from "@/context/Authcontext";
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
 import axios from "axios";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 
@@ -21,17 +22,14 @@ const ChangePersonalInfo = () => {
       console.log(response.data);
       if (response.status === 200) {
         authContext?.setUserDeatils(response.data);
-        setSuccess("Account Details Updated successfully");
-        setError("");
+        
       }
+      ToastSuccess("Account Info Updated")
     } catch (error: any) {
       console.log(error.response?.data);
-      setError(
-        error.response?.data?.message ||
-          "Invalid Data for update. Please recheck",
-      );
-      setSuccess("");
+      
       console.log(error);
+      ToastError("Error occured")
     }
   };
 
@@ -49,8 +47,7 @@ const ChangePersonalInfo = () => {
       </div>
       <div className="p-7">
         <form onSubmit={handleUpdateAccount}>
-          {error && <p className=" py-1 text-red">{error}</p>}
-          {success && <p className=" py-1 text-green-400">{success}</p>}
+        
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <div className="w-full ">
               <label

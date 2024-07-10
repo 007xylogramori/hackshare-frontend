@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import AuthContext from "@/context/Authcontext";
-import Loader from "../common/Loader";
+import { ToastSuccess , ToastError} from "@/services/toastNotification";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,13 +25,17 @@ const Login = () => {
       console.log(response.data);
       if (response.status === 200) {
         authContext?.setUserDeatils(response.data);
+        ToastSuccess("Logged in Successfully")
         router.push("/dashboard");
+
       }
+
     } catch (error: any) {
       console.log(error.response?.data);
       setError(
         error.response?.data?.message || "Invalid Credentials. Please recheck",
       );
+      ToastError("Something went wrong , Try Again")
       console.log(error);
     }
     setLoading(false);

@@ -1,21 +1,25 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
-import AuthContext from "@/context/Authcontext";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
 interface UploadResourceProps {
   pagename: string;
+  setAdded: any;
+  added:boolean;
 }
-const UploadResource = ({ pagename }: UploadResourceProps) => {
+const UploadResource = ({setAdded,added, pagename }: UploadResourceProps) => {
+
   const params = useParams<any>();
   const teamId = params?.teamId;
+
   const [file, setFile] = useState(null);
   const [filetype, setFiletype] = useState(pagename);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState("");
+  const [loading , setLoading]=useState(false);
 
   const handleFileChange = (e: any) => {
     setFile(e.target.files[0]);
@@ -25,9 +29,11 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
     if (!file || !filetype) {
-      setError("File and file type are required.");
+      ToastError("File and file type are required.");
+      setLoading(false);
       return;
     }
 
@@ -49,13 +55,19 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
         },
       );
       console.log(response.data);
-      setSuccess("Resource uploaded successfully.");
       setFile(null);
       setFiletype("document");
+      setError("")
       setDescription("");
+      setAdded(!added);
+      ToastSuccess("Image Added Successfully");
+      setOpen(false);
+      setLoading(false);
     } catch (error: any) {
       console.log(error);
+      ToastError("An error occurred while uploading the resource.")
       setError("An error occurred while uploading the resource.");
+      setLoading(false);
     }
   };
 
@@ -191,10 +203,11 @@ const UploadResource = ({ pagename }: UploadResourceProps) => {
 
             <div className="flex justify-end gap-4.5">
               <button
-                className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
+              disabled={loading}
+                className="flex justify-center rounded bg-primary  px-6 py-2 font-medium text-gray hover:bg-opacity-90"
                 type="submit"
               >
-                Save
+                {!loading?"Upload":"Uploading..."}
               </button>
             </div>
           </form>

@@ -2,8 +2,9 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
 import { createPost } from "@/services/discussionServices";
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
 
-const UploadDiscussion = () => {
+const UploadDiscussion = ({setAdded,added}:any) => {
   const params = useParams<any>();
   const teamId = params?.teamId;
   const [title, setTitle] = useState("");
@@ -26,15 +27,17 @@ const UploadDiscussion = () => {
     try {
       const response = await createPost(title, description, link, teamId);
       console.log(response.data);
-      setSuccess("Post uploaded successfully.");
       setDescription("");
       setLink("");
       setTitle("");
       setError("");
+      ToastSuccess("Discussion Added");
+      setOpen(false);
+      setAdded(!added)
     } catch (error: any) {
       console.log(error);
       setSuccess("");
-      setError("An error occurred while uploading the resource.");
+      ToastError("Error Occured");
     }
   };
 

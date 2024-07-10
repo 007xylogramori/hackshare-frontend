@@ -2,13 +2,15 @@ import React, { useMemo, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { communityPost } from "@/services/communityServices";
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
+import { useRouter } from "next/navigation";
 const CommunityPostForm = ({ setShow }: any) => {
   const [title, setTitle] = useState("");
   const ReactQuill = useMemo(
     () => dynamic(() => import("react-quill"), { ssr: false }),
     [],
   );
-
+  const router=useRouter();
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [error, setError] = useState("");
@@ -19,16 +21,19 @@ const CommunityPostForm = ({ setShow }: any) => {
 
     try {
       const response = await communityPost(title, content, tags);
-
       if (response?.status === 201) {
+        router.push("/community/"+response.data.data._id)
         setSuccess("Post created successfully!");
         setTitle("");
         setContent("");
         setTags("");
       }
+      ToastSuccess("Post Uploaded")
     } catch (error: any) {
-      setError(error.response?.data?.message || "Something went wrong");
+      
+      ToastError("post upload Failed")
     }
+    setShow(false)
   };
 
   return (
@@ -72,8 +77,7 @@ const CommunityPostForm = ({ setShow }: any) => {
             </h3>
           </div>
 
-          {error && <div style={{ color: "red" }}>{error}</div>}
-          {success && <div style={{ color: "green" }}>{success}</div>}
+          
 
           <form action="#">
             <div className="p-6.5">

@@ -1,19 +1,23 @@
 import { deleteResource } from "@/services/resourceServices";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 interface DocumentResourceProps {
   document: any;
   setDocuments:any;
   documents:any
 }
 const DocumentResource = ({ document ,setDocuments,documents }: DocumentResourceProps) => {
+  const [deleting, setDeleting] = useState(false);
   const handleDelete = async () => {
+    setDeleting(true);
     try {
       await deleteResource(document?._id);
+        console.log(documents)
         setDocuments(documents.filter((doc:any )=> doc._id !== document?._id));
     } catch (error) {
       console.log(error);
     }
+    setDeleting(false);
   };
 
   return (
@@ -27,13 +31,13 @@ const DocumentResource = ({ document ,setDocuments,documents }: DocumentResource
             href={`${document?.url}`}
             className="hidden items-center justify-center rounded-md border border-primary px-10 py-2 text-center font-medium text-primary hover:bg-opacity-90 dark:inline-flex lg:px-8 xl:px-10"
           >
-            VIEW
+            View
           </Link>
           <Link
             href={`${document?.url}`}
             className="inline-flex items-center justify-center bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 dark:hidden lg:px-8 xl:px-10"
           >
-            VIEW
+            View
           </Link>
         </div>
         <div className="mt-2">
@@ -42,14 +46,14 @@ const DocumentResource = ({ document ,setDocuments,documents }: DocumentResource
             onClick={handleDelete}
             className="hidden items-center justify-center rounded-md border border-red px-10 py-2 text-center font-medium text-red hover:bg-opacity-90 dark:inline-flex lg:px-6 xl:px-8"
           >
-            DELETE
+        {deleting?"Deleting":"Delete"}   
           </button>
           <button
             type="submit"
             onClick={handleDelete}
             className="inline-flex items-center justify-center bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 dark:hidden lg:px-6 xl:px-8"
           >
-            DELETE
+          {deleting?"Deleting":"Delete"} 
           </button>
         </div>
       </div>

@@ -15,6 +15,7 @@ const TeamImagesPage = () => {
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState(false);
+  const [added, setAdded] = useState(false);
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -35,13 +36,13 @@ const TeamImagesPage = () => {
       setLoading(false);
     };
     fetchGithubRepos();
-  }, []);
+  }, [added]);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / documents`} />
       {/* image upload */}
-      <UploadRepo />
+      <UploadRepo setAdded={setAdded} added={added}/>
       {/* image data */}
       <div className="py-4">
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">

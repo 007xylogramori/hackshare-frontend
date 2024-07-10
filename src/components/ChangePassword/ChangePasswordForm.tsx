@@ -1,3 +1,4 @@
+import { ToastError, ToastSuccess } from "@/services/toastNotification";
 import axios from "axios";
 import React, { FormEvent, useState } from "react";
 
@@ -27,7 +28,7 @@ const ChangePasswordForm = () => {
       );
       console.log(response.data);
       if (response.status === 200) {
-        setSuccess("Password Details Updated successfully");
+        ToastSuccess("Password Updated")
         setError("");
         setConfirmPassword("");
         setOldPassword("");
@@ -35,13 +36,12 @@ const ChangePasswordForm = () => {
       }
     } catch (error: any) {
       console.log(error.response?.data);
-      setError(
-        error.response?.data?.message || "Password Does not match.Please recheck",
-      );
+    
+      ToastError("Error Occured")
       setConfirmPassword("");
       setOldPassword("");
       setNewPassword("");
-      setSuccess("");
+      
       console.log(error);
     }
   };
@@ -56,7 +56,7 @@ const ChangePasswordForm = () => {
       <div className="p-7">
         <form onSubmit={handleChangePassword}>
           {error && <p className=" py-1 text-red">{error}</p>}
-          {success && <p className=" py-1 text-green-400">{success}</p>}
+        
 
           <div className="mb-5.5">
             <label className="mb-3 block text-sm font-medium text-black dark:text-white">

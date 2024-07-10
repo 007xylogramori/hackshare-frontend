@@ -3,18 +3,20 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Card from "@/components/TeamCard/Card";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
+
 import axios from "axios";
 import AuthContext from "@/context/Authcontext";
 import Image from "next/image";
 import Loader from "@/components/common/Loader";
+import { ToastSuccess, ToastError } from "@/services/toastNotification";
+
 const TeamPage = () => {
   const [teamDetails, setTeamDetails] = useState([]);
   const authContext = useContext(AuthContext);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
-  const [success, setSuccess] = useState("");
-  const [successCreate, setSuccessCreate] = useState("");
-  const [loading,setLoading]=useState(false);
+  const [added, setAdded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleJoinTeam = async (event: FormEvent) => {
     event.preventDefault();
@@ -28,11 +30,17 @@ const TeamPage = () => {
       console.log(response.data);
       if (response.status === 200) {
       }
+      setAdded(!added);
+      setCode("");
+      ToastSuccess("Team Joined");
     } catch (error: any) {
       console.log(error.response?.data);
       console.log(error);
+      setCode("")
+      ToastError("Unable to Join Team");
     }
   };
+
   const handleCreateTeam = async (event: FormEvent) => {
     event.preventDefault();
     try {
@@ -45,14 +53,18 @@ const TeamPage = () => {
       console.log(response.data);
       if (response.status === 200) {
       }
-      setSuccess("Joined successfully");
+      setName("")
+      setAdded(!added);
+      ToastSuccess("Team Created");
     } catch (error: any) {
       console.log(error.response?.data);
       console.log(error);
+      ToastError("Error Occured");
+      setName("")
     }
   };
   const getAllTeams = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
       const response = await axios.get(
@@ -73,12 +85,12 @@ const TeamPage = () => {
     }
     getAllTeams();
     console.log(authContext?.user);
-  }, [success, successCreate, authContext]);
+  }, [added, authContext]);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName="My Teams" />
-      <div className="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="rounded-sm border  border-stroke bg-white px-7 py-2 shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleCreateTeam} className=" min-w-[100%]">
             <div className="mb-3.5 flex w-[100%] items-end gap-2 ">
@@ -97,7 +109,7 @@ const TeamPage = () => {
                 />
               </div>
               <button
-                className="flex justify-center rounded border bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
+                className="flex justify-center rounded border border-transparent bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
                 type="submit"
               >
                 Save
@@ -123,7 +135,8 @@ const TeamPage = () => {
                 />
               </div>
               <button
-                className="flex justify-center rounded border bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
+                className="flex justify-center  border-transparent rounded border bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
+
                 type="submit"
               >
                 Save
@@ -133,14 +146,16 @@ const TeamPage = () => {
         </div>
       </div>
 
-      {loading? <Loader/> : teamDetails.length > 0 ? (
+      {loading ? (
+        <Loader />
+      ) : teamDetails.length > 0 ? (
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 ">
           {teamDetails.map((team, index) => {
             return <Card team={team} key={index} />;
           })}
         </div>
       ) : (
-        <div className="flex my-10 w-[100%] flex-col items-center justify-center">
+        <div className="my-10 flex w-[100%] flex-col items-center justify-center">
           <Image
             className="text-white dark:hidden dark:text-white"
             src={"/0team.svg"}

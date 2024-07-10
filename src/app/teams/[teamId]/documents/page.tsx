@@ -16,7 +16,7 @@ const TeamImagesPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [documents, setDocuments] = useState([]);
-
+  const [added, setAdded] = useState(false);
   useEffect(() => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
@@ -34,13 +34,13 @@ const TeamImagesPage = () => {
       }
     };
     fetchDocuments();
-  }, []);
+  }, [added]);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={`Teams /  MyTeam / documents`} />
       {/* document upload */}
-      <UploadResource pagename={"document"} />
+      <UploadResource added={added} setAdded={setAdded} pagename={"document"} />
       {/* document data */}
       <div className="py-4">
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
@@ -64,7 +64,7 @@ const TeamImagesPage = () => {
             {documents.map((document: any) => (
               <DocumentResource
                 setDocuments={setDocuments}
-                documents={document}
+                documents={documents}
                 document={document}
                 key={document?._id}
               />
