@@ -2,6 +2,7 @@
 import React, { useState, ReactNode } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import ChatBot from "../chatBot/ChatBot";
 
 export default function DefaultLayout({
   children,
@@ -26,6 +27,7 @@ export default function DefaultLayout({
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+              <ChatBot/>
               {children}
             </div>
           </main>

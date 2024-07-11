@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.14.1",
     "apexcharts": "^3.45.2",
     "axios": "^1.7.2",
     "flatpickr": "^4.6.13",
