@@ -6,6 +6,7 @@ import {
 } from "@google/generative-ai";
 const ChatBot = () => {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: "model",
@@ -49,6 +50,7 @@ const ChatBot = () => {
   ];
   const addMessage = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (newMsg.length == 0) return;
     else {
@@ -69,12 +71,13 @@ const ChatBot = () => {
       }
     }
     if (chatbox) {
-      console.log("hello")
-      chatbox.current.addEventListener('DOMNodeInserted', (event) => {
+      console.log("hello");
+      chatbox.current.addEventListener("DOMNodeInserted", (event) => {
         const { currentTarget: target } = event;
         target.scroll({ top: target.scrollHeight, behavior: "smooth" });
       });
     }
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -190,6 +193,12 @@ Community Page: Connect with users over the internet, filter using tags, and pos
                 }
               })}
             </div>
+            {loading && <div class="flex px-4 py-2 h-2  space-x-2  ">
+                <span class="sr-only">Loading...</span>
+                <div class="h-2 w-2   animate-bounce rounded-full bg-black dark:bg-white [animation-delay:-0.3s]"></div>
+                <div class="h-2 w-2  animate-bounce rounded-full bg-black dark:bg-white [animation-delay:-0.15s]"></div>
+                <div class="h-2 w-2  animate-bounce rounded-full bg-black dark:bg-white"></div>
+              </div>}
             <form onSubmit={addMessage} className="flex  p-1">
               <input
                 value={newMsg}

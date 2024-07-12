@@ -41,7 +41,7 @@ const PostList = ({ searchTags }: any) => {
             {posts.map((post: any) => (
               <div
                 key={post._id}
-                className="mx-3 my-4 rounded-lg bg-white px-10 py-6 shadow-md dark:bg-black dark:text-white"
+                className="md:mx-3 my-4 rounded-lg bg-white px-3 md:px-10 py-6 shadow-md dark:bg-black dark:text-white"
               >
                 <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
                   <span className="text-gray-600 font-light">
@@ -51,7 +51,7 @@ const PostList = ({ searchTags }: any) => {
                       year: "numeric",
                     })}
                   </span>
-                  <div className="bg-gray-600 text-gray-100 hover:bg-gray-500 flex gap-1 rounded py-1 font-bold">
+                  <div className="bg-gray-600 text-gray-100 hover:bg-gray-500 flex flex-wrap gap-1 rounded py-1 font-bold">
                     {post.tags.map((i: string, idx: any) => {
                       return (
                         <div
@@ -89,7 +89,7 @@ const PostList = ({ searchTags }: any) => {
                     <a className="flex items-center" href="#">
                       <img
                         className="mx-4 hidden h-10 w-10 rounded-full object-cover sm:block"
-                        src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80"
+                        src={`${post.user.profilePicture}`|| `/blackProfile.png`}
                         alt="avatar"
                       />
                       <h1 className="text-gray-700 font-bold">

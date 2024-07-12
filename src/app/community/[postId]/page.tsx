@@ -32,6 +32,7 @@ export default function Home() {
       );
       console.log(response.data.data);
       isAdded(!added);
+      setComment("");
       ToastSuccess("Comment Added")
     } catch (error) {
       console.log(error);
@@ -115,7 +116,7 @@ export default function Home() {
         ) : (
           <div
             key={post?._id}
-            className={!error?`mx-3 mt-4 w-full rounded-lg bg-white px-10 py-6 text-black shadow-md dark:bg-black dark:text-white`:"hidden"}
+            className={!error?` mt-4 w-full rounded-lg bg-white px-4 md:px-10 py-6 text-black shadow-md dark:bg-black dark:text-white`:"hidden"}
           >
             <div className="w-full  items-center justify-between md:flex">
               <div className="flex w-full justify-between">
@@ -168,7 +169,7 @@ export default function Home() {
             </div>
             <div className="mt-4 flex items-center justify-between">
               <form onSubmit={handleAddComment} className=" min-w-[100%]">
-                <div className="mb-3.5 flex w-[100%] items-end gap-2 ">
+                <div className="mb-3.5 flex  w-[100%] items-end gap-2 ">
                   <div className="w-[100%] ">
                     <input
                       value={comment}
@@ -181,10 +182,16 @@ export default function Home() {
                     />
                   </div>
                   <button
-                    className="flex justify-center rounded  bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
+                    className=" hidden md:flex justify-center rounded  bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
                     type="submit"
                   >
                     Comment
+                  </button>
+                  <button
+                    className="flex justify-center rounded  bg-primary px-4 md:hidden py-3 font-medium text-gray hover:bg-opacity-90"
+                    type="submit"
+                  >
+                   +
                   </button>
                 </div>
               </form>

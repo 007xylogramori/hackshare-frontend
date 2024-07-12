@@ -22,11 +22,11 @@ const DropdownUser = () => {
           
         </span>
 
-        <span className="h-12 w-12 rounded-full">
+        <span className="h-12 w-12 rounded-full overflow-hidden">
           <Image
             width={112}
             height={112}
-            src={"/images/user/user-01.png"}
+            src={authcontext?.user?.profilePicture || "/blackprofile.png"}
             style={{
               width: "auto",
               height: "auto",

@@ -26,7 +26,7 @@ const Login = () => {
       if (response.status === 200) {
         authContext?.setUserDeatils(response.data);
         ToastSuccess("Logged in Successfully")
-        router.push("/dashboard");
+        router.push("/teams");
 
       }
 
