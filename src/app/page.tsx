@@ -28,20 +28,7 @@ export default function Home() {
                     <div>HackShare</div>
                   </Link>
                 </div>
-                <ul className="hidden items-center space-x-6 pl-12  text-white md:flex">
-                  <li>
-                    <Link href="#">Profile</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Settings</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Teams</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Contact Us</Link>
-                  </li>
-                </ul>
+                
               </div>
               {authcontext?.user == null ? (
                 <div className=" flex gap-2  whitespace-nowrap  rounded-xl  py-3">
@@ -160,53 +147,53 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-6 py-24 sm:px-14 lg:px-24 xl:px-54">
+        <section className="px-6 py-24 sm:px-14 lg:px-24 ">
           <div className="flex items-center justify-center">
             <h2 className="leading-tighter font-rubik max-w-lg text-center text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
               Built for devs
             </h2>
           </div>
 
-          <div className="flex flex-col items-center pt-6 sm:flex-row sm:items-start md:pt-18">
-            <div className="flex w-full max-w-sm flex-col items-center pt-8 text-center sm:block sm:pt-0 sm:text-left md:w-1/3">
-              <img src="./assets/img/api.svg" alt="" />
-              <h3 className="font-rubik pt-3 text-xl font-bold text-white sm:pt-6">
-                Faster than API
-              </h3>
-              <p className="text-gray-700 pr-8 pt-4 text-sm leading-relaxed md:pr-16">
-                Changes are publish to all clients in real time. Local data is
-                fast, read and write it instantly. Cache it forever
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-10 items-center pt-6 sm:flex-row sm:items-start md:pt-8">
+            <div className="bg-black  shadow-lg h-[100%] p-4 ">
+              <h1 className="text-2xl text-white font-bold">Team Management</h1>
+              <p>
+                 Collaborate  by creating new or joining an existing team to conquer hackathons and devlop cool projects
               </p>
             </div>
-            <div className="flex w-full max-w-sm flex-col items-center pt-8 text-center sm:block sm:pt-0 sm:text-left md:w-1/3">
-              <img src="./assets/img/api.svg" alt="" />
-              <h3 className="font-rubik pt-3 text-xl font-bold text-white sm:pt-6">
-                Faster than API
-              </h3>
-              <p className="text-gray-700 pr-8 pt-4 text-sm leading-relaxed md:pr-16">
-                Changes are publish to all clients in real time. Local data is
-                fast, read and write it instantly. Cache it forever
+            <div className="bg-black  shadow-lg h-[100%] p-4 h-[100%] ">
+              <h1 className="text-2xl text-white font-bold">Resource Upload</h1>
+              <p>
+               Upload resources such as images doc files related to yur project in your team.
               </p>
             </div>
-            <div className="flex w-full max-w-sm flex-col items-center pt-8 text-center sm:block sm:pt-0 sm:text-left md:w-1/3">
-              <img src="./assets/img/cloud.svg" alt="" />
-              <h3 className="font-rubik pt-3 text-xl font-bold text-white sm:pt-6">
-                Easy to use
-              </h3>
-              <p className="text-gray-700 pr-8 pt-4 text-sm leading-relaxed md:pr-16">
-                Develop with local database thats as capable as cloud DBs. Cut
-                out your API and let Homebase sync state and help you manage
-                data flow.
+            <div className="bg-black  shadow-lg h-[100%] p-4 ">
+              <h1 className="text-2xl text-white font-bold">Manage Your Github Repositories</h1>
+              <p>
+                Link Github Repos to your team and view all PRs and commits at one place.
               </p>
             </div>
-            <div className="flex w-full max-w-sm flex-col items-center pt-8 text-center sm:block sm:pt-0 sm:text-left md:w-1/3">
-              <img src="./assets/img/database.svg" alt="" />
-              <h3 className="font-rubik pt-3 text-xl font-bold text-white sm:pt-6">
-                More collaborative
-              </h3>
-              <p className="text-gray-700 pr-8 pt-4 text-sm leading-relaxed md:pr-16">
-                When database is responsible for resolving conflicts you dont
-                have to solve realtime collaboration or offline support.
+            <div className="bg-black  shadow-lg h-[100%] p-4 ">
+              <h1 className="text-2xl text-white font-bold">Discuss Section For teamMates<span className="bg-meta-3 text-white px-2 rounded-2xl py-1 text-sm  m-2">#AI</span></h1>
+              <p>
+                Create Discussion post and make all those suppaa features you want to with the help of AI ! 
+              </p>
+                
+            </div>
+            <div className="bg-black  shadow-lg h-[100%] p-4 ">
+              <h1 className="text-2xl text-white font-bold">
+                AI CHATBOT at your service <span className="bg-meta-3 text-white px-2 rounded-2xl py-1 text-sm  m-2">#AI</span>
+              </h1>
+              <p>
+               Ask any doubts regarding our feature with hackAI , it will guide you through all your queries
+              </p>
+            </div>
+            <div className="bg-black  shadow-lg h-[100%] p-4 ">
+              <h1 className="text-2xl text-white font-bold">
+                Community Section 
+              </h1>
+              <p>
+              Share your thoughts and new finds or whatever you like with everyone through community Posts
               </p>
             </div>
           </div>

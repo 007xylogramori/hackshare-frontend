@@ -89,7 +89,7 @@ const PostList = ({ searchTags }: any) => {
                     <a className="flex items-center" href="#">
                       <img
                         className="mx-4 hidden h-10 w-10 rounded-full object-cover sm:block"
-                        src={`${post.user.profilePicture}`|| `/blackProfile.png`}
+                        src={`${post.user.profilePicture}`|| `/blackprofile.png`}
                         alt="avatar"
                       />
                       <h1 className="text-gray-700 font-bold">
