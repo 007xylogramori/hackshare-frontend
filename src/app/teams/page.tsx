@@ -104,7 +104,7 @@ const TeamPage = () => {
                     setName(e.target.value);
                   }}
                   type="text"
-                  placeholder="Enter password"
+                  placeholder="Enter Team Name"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
@@ -112,7 +112,7 @@ const TeamPage = () => {
                 className="flex justify-center rounded border border-transparent bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
                 type="submit"
               >
-                Save
+                Create
               </button>
             </div>
           </form>
@@ -129,8 +129,8 @@ const TeamPage = () => {
                   onChange={(e) => {
                     setCode(e.target.value);
                   }}
-                  type="password"
-                  placeholder="Enter password"
+                  type="text"
+                  placeholder="Enter Team Code"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
@@ -139,7 +139,7 @@ const TeamPage = () => {
 
                 type="submit"
               >
-                Save
+                Join
               </button>
             </div>
           </form>

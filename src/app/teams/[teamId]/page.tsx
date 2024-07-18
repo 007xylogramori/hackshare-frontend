@@ -70,7 +70,6 @@ const SingleTeamPage = () => {
   }, []);
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={`Teams /  ${teamDetails?.name}`} />
       {loading ? (
         <Loader />
       ) : error ? (
@@ -79,6 +78,8 @@ const SingleTeamPage = () => {
           <h1 className="text-2xl font-bold">Something went wrong !</h1>
         </div>
       ) : (
+         <>
+          <Breadcrumb pageName={`Teams /  ${teamDetails?.name}`} />
         <div>
           <div className="flex w-[100%] justify-end pb-4">
             {authContext?.user?.username == teamDetails?.owner?.username ? (
@@ -516,6 +517,7 @@ const SingleTeamPage = () => {
             </CardDataStats>
           </div>
         </div>
+         </>
       )}
     </DefaultLayout>
   );

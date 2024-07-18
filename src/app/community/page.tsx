@@ -6,6 +6,7 @@ import CommunityPostFormModal from "@/components/CommunityPostForm/CommunityPost
 import PostList from "@/components/CommunityPosts/CommunityPosts";
 export default function Home() {
   const [show, setShow] = useState(false);
+  const [search,setSearch]=useState("");
   const [appliedTags, setAppliedTags] = useState<string[]>([]);
   const [searchTags, setSearchTags] = useState("");
   const tags = [
@@ -124,7 +125,7 @@ export default function Home() {
       <DefaultLayout>
         <div className="flex items-center justify-between">
           <div className="px-4 py-2   sm:block">
-            <form action="https://formbold.com/s/unique_form_id" method="POST">
+           
               <div className="relative">
                 <button title="op" className="absolute left-0 top-1/2 -translate-y-1/2">
                   <svg
@@ -151,12 +152,14 @@ export default function Home() {
                 </button>
 
                 <input
+                 value={search}
+                 onChange={(e)=>setSearch(e.target.value)}
                   type="text"
                   placeholder="Type to search..."
                   className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
                 />
               </div>
-            </form>
+           
           </div>
           <div className="flex w-30 items-center justify-center rounded-lg border bg-primary  px-2 py-1 text-white dark:border-primary dark:bg-transparent dark:text-primary ">
             <button
@@ -241,7 +244,7 @@ export default function Home() {
             <CommunityPostFormModal setShow={setShow} />
           </div>
         )}
-        <PostList searchTags={searchTags} />
+        <PostList search={search} searchTags={searchTags} />
       </DefaultLayout>
     </>
   );

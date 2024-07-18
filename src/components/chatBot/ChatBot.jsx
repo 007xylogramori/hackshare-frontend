@@ -77,7 +77,7 @@ const ChatBot = () => {
         target.scroll({ top: target.scrollHeight, behavior: "smooth" });
       });
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -94,13 +94,13 @@ const ChatBot = () => {
                 role: "user",
                 parts: [
                   {
-                    text: `You are an assistant for HackShare, a collaborative app designed for hackathons to manage team resources and communication.
-Create Team: Navigate to the Teams page to create a team.
-Join Team: Go to the Teams page, enter the team code, and join a team.
-Resource Upload: Upload images, documents, and GitHub repo links on your team page.
-GitHub Repo: Upload a repo on Teams -> youteam -> GitHub-repo page, then view commits and pull requests.
-Discussion Section: Navigate to Teams -> Your Team -> Discussion to upload discussions. This section is AI-powered.
-Community Page: Connect with users over the internet, filter using tags, and post.`,
+                    text: `You are an assistant for HackShare, a collaborative app designed for hackathons to manage team resources and communication use this context only to answer my questions dont add anything on your own.
+Create Team: Navigate to the Teams page and type the name of team in join team section to create a team.
+Join Team: Go to the Teams page, enter the team code in join team section, and join a team.
+Resource Upload: there are 4 types of resources, go to teams , open your team page where you can find links to images , documents , discussion , gihtubrepo pages  , visit the desired link and on there you can upload your resource for your team.
+GitHub Repo: Upload a repo on Teams visit your team open its related GitHub-repo page, then view commits and pull requests.
+Discussion Section: Navigate to Teams open Your Team page then navigate to Discussion page then you can upload discussions. This section is AI-powered.
+Community Page: Connect with users over the internet, you can make your post , like and comment on other users post and filter among post according to your need`,
                   },
                 ],
               },
@@ -193,12 +193,14 @@ Community Page: Connect with users over the internet, filter using tags, and pos
                 }
               })}
             </div>
-            {loading && <div class="flex px-4 py-2 h-2  space-x-2  ">
+            {loading && (
+              <div class="flex h-2 space-x-2 px-4  py-2  ">
                 <span class="sr-only">Loading...</span>
-                <div class="h-2 w-2   animate-bounce rounded-full bg-black dark:bg-white [animation-delay:-0.3s]"></div>
-                <div class="h-2 w-2  animate-bounce rounded-full bg-black dark:bg-white [animation-delay:-0.15s]"></div>
+                <div class="h-2 w-2   animate-bounce rounded-full bg-black [animation-delay:-0.3s] dark:bg-white"></div>
+                <div class="h-2 w-2  animate-bounce rounded-full bg-black [animation-delay:-0.15s] dark:bg-white"></div>
                 <div class="h-2 w-2  animate-bounce rounded-full bg-black dark:bg-white"></div>
-              </div>}
+              </div>
+            )}
             <form onSubmit={addMessage} className="flex  p-1">
               <input
                 value={newMsg}

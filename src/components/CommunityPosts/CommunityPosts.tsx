@@ -6,7 +6,7 @@ import Link from "next/link";
 import Loader from "../common/Loader";
 import Image from "next/image";
 
-const PostList = ({ searchTags }: any) => {
+const PostList = ({ search ,searchTags }: any) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -38,7 +38,9 @@ const PostList = ({ searchTags }: any) => {
         <div>
           <h2 className="px-4">Community Posts</h2>
           <div>
-            {posts.map((post: any) => (
+            {posts.filter((post:any)=>{
+              return post?.title.toLowerCase().includes(search.toLowerCase())
+            }).map((post: any) => (
               <div
                 key={post._id}
                 className="md:mx-3 my-4 rounded-lg bg-white px-3 md:px-10 py-6 shadow-md dark:bg-black dark:text-white"
