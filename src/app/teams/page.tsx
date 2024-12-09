@@ -3,12 +3,15 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Card from "@/components/TeamCard/Card";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
-
-import axios from "axios";
 import AuthContext from "@/context/Authcontext";
 import Image from "next/image";
 import Loader from "@/components/common/Loader";
 import { ToastSuccess, ToastError } from "@/services/toastNotification";
+import {
+  CreateTeam,
+  GetAllTeams,
+  joinTeamByCode,
+} from "@/services/teamServices";
 
 const TeamPage = () => {
   const [teamDetails, setTeamDetails] = useState([]);
@@ -21,12 +24,8 @@ const TeamPage = () => {
   const handleJoinTeam = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}teams/join-team`,
-        { code },
-        { withCredentials: true },
-      );
+      if(code=="")  throw new Error('Parameter missing!');
+      const response = await joinTeamByCode({ code });
       console.log(response.data);
       if (response.status === 200) {
       }
@@ -36,41 +35,35 @@ const TeamPage = () => {
     } catch (error: any) {
       console.log(error.response?.data);
       console.log(error);
-      setCode("")
-      ToastError("Unable to Join Team");
+      setCode("");
+      ToastError("Invalid Team Code");
     }
   };
 
   const handleCreateTeam = async (event: FormEvent) => {
     event.preventDefault();
     try {
+      if(name==="")  throw new Error('Parameter error!');
       console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}teams/create-team`,
-        { name },
-        { withCredentials: true },
-      );
+      const response = await CreateTeam({ name });
       console.log(response.data);
       if (response.status === 200) {
       }
-      setName("")
+      setName("");
       setAdded(!added);
       ToastSuccess("Team Created");
     } catch (error: any) {
       console.log(error.response?.data);
       console.log(error);
       ToastError("Error Occured");
-      setName("")
+      setName("");
     }
   };
   const getAllTeams = async () => {
     setLoading(true);
     try {
       console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}teams/getallteams`,
-        { withCredentials: true },
-      );
+      const response = await GetAllTeams();
       console.log(response.data.data);
       setTeamDetails(response.data.data.teams);
     } catch (error: any) {
@@ -135,8 +128,7 @@ const TeamPage = () => {
                 />
               </div>
               <button
-                className="flex justify-center  border-transparent rounded border bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
-
+                className="flex justify-center  rounded border border-transparent bg-primary px-6 py-3 font-medium text-gray hover:bg-opacity-90"
                 type="submit"
               >
                 Join
