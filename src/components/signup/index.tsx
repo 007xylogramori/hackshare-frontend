@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import React, { useState, FormEvent } from "react";
-import axios from "axios";
 import { ToastSuccess, ToastError } from "@/services/toastNotification";
 import { useRouter } from "next/navigation";
+import { signupUser } from "@/services/authServices";
 const Signup = () => {
   const router = useRouter();
   const [fullName, setFullName] = useState<string>("");
@@ -17,11 +17,12 @@ const Signup = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}users/register`,
-        { fullName, username, email, password },
-        { withCredentials: true },
-      );
+      const response = await signupUser({
+        fullName,
+        username,
+        email,
+        password,
+      });
       if (response.status === 201) {
         ToastSuccess("Account Created. please Login to start");
         router.push("/auth/signin");

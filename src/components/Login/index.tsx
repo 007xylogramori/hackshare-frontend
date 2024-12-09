@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React, { FormEvent, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import AuthContext from "@/context/Authcontext";
 import { ToastSuccess , ToastError} from "@/services/toastNotification";
+import { loginUser } from "@/services/authServices";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,17 +17,12 @@ const Login = () => {
     event.preventDefault();
     try {
       console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}users/login`,
-        { email, password },
-        { withCredentials: true },
-      );
+      const response = await loginUser({email,password})
       console.log(response.data);
       if (response.status === 200) {
         authContext?.setUserDeatils(response.data);
         ToastSuccess("Logged in Successfully")
         router.push("/teams");
-
       }
 
     } catch (error: any) {
