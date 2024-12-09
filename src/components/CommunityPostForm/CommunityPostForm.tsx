@@ -3,6 +3,7 @@ import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { communityPost } from "@/services/communityServices";
 import { ToastError, ToastSuccess } from "@/services/toastNotification";
+import 'react-quill/dist/quill.snow.css';
 import { useRouter } from "next/navigation";
 const CommunityPostForm = ({ setShow }: any) => {
   const [title, setTitle] = useState("");
@@ -10,6 +11,15 @@ const CommunityPostForm = ({ setShow }: any) => {
     () => dynamic(() => import("react-quill"), { ssr: false }),
     [],
   );
+  const modules={
+    toolbar: [
+     [{ header: [1, 2, 3, 4, 5, 6, false] }],
+     ["bold", "italic", "underline", "strike", "blockquote"],
+     [{ align: ["right", "center", "justify"] }],
+     [{ list: "ordered" }, { list: "bullet" }],
+     ["link"],
+    ],
+   }
   const router=useRouter();
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
@@ -111,6 +121,7 @@ const CommunityPostForm = ({ setShow }: any) => {
                   Post Content
                 </label>
                 <ReactQuill
+                  modules={modules}
                   theme="snow"
                   value={content}
                   onChange={setContent}
