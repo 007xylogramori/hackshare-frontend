@@ -67,6 +67,7 @@ const TeamImagesPage = () => {
                 documents={documents}
                 document={document}
                 key={document?._id}
+                user={authContext?.user}
               />
             ))}
           </div>

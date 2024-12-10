@@ -53,6 +53,7 @@ const SingleTeamPage = () => {
     }
   };
 
+
   useEffect(() => {
     if (authContext?.user == null) {
       authContext?.setUserUsingtokens();
@@ -97,8 +98,23 @@ const SingleTeamPage = () => {
                 <h3 className="text-xl font-medium text-black dark:text-white">
                   Team Information
                 </h3>
-                <div className="flex w-[150px] justify-center border-2 border-meta-3 px-2 py-2 font-bold text-meta-3 dark:border-0 dark:bg-yellow-400 dark:text-white ">
-                  {" "}
+                <div className="flex w-[150px] justify-center border-2 border-meta-3 px-2 py-2 font-bold text-meta-3 dark:border-0 dark:bg-yellow-400 dark:text-white hover:cursor-pointer"
+                onClick={() => {navigator.clipboard.writeText(teamDetails.code)
+                  ToastSuccess("Code Copied")
+                }}
+                >
+                   <svg fill="none" className="dark:text-white text-meta-3 pr-0.5" viewBox="0 0 24 24" height="1.5em" width="1.5em" >
+      <path
+        fill="currentColor"
+        d="M13 7H7V5h6v2zM13 11H7V9h6v2zM7 15h6v-2H7v2z"
+      />
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M3 19V1h14v4h4v18H7v-4H3zm12-2V3H5v14h10zm2-10v12H9v2h10V7h-2z"
+        clipRule="evenodd"
+      />
+    </svg>
                   {teamDetails.code}{" "}
                 </div>
               </div>

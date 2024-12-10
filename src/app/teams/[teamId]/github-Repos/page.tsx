@@ -40,7 +40,7 @@ const TeamImagesPage = () => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={`Teams /  MyTeam / documents`} />
+      <Breadcrumb pageName={`Teams /  MyTeam / Repositories`} />
       {/* image upload */}
       <UploadRepo setAdded={setAdded} added={added}/>
       {/* image data */}
@@ -63,7 +63,7 @@ const TeamImagesPage = () => {
         ) : (
           <div className=" grid w-[100%] grid-cols-1 gap-2 ">
             {documents.map((document: any, idx) => (
-              <GithubResource repo={document} key={idx} />
+              <GithubResource  repos={documents} setAllRepos={setDocuments} repo={document} setRepo={setDocuments} key={idx} />
             ))}
           </div>
         )}

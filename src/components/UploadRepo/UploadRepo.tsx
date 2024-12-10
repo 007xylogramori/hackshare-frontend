@@ -19,6 +19,7 @@ const UploadRepo = ({setAdded,added}:any) => {
     setSuccess("");
 
     if (!repoUrl || !teamId) {
+      ToastError("Details Missing")
       setError("Details Missing");
       return;
     }
@@ -102,14 +103,14 @@ const UploadRepo = ({setAdded,added}:any) => {
       </div>
       {open && (
         <div className="p-7">
-          <form onSubmit={handleSubmit} className="w-[100%] ">
-            {error && <p className=" py-1 text-red">{error}</p>}
-            {success && <p className=" py-1 text-green-400">{success}</p>}
+          
+          <form onSubmit={handleSubmit} className=" flex gap-1 min-w-100 w-[100%]">
             
-              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                <div className="w-full ">
+            
+              <div className="min-w-100 w-[100%]">
+                <div className="min-w-100 w-[100%]">
                   
-                  <div className="relative">
+                  <div className="">
                     <input
                       value={repoUrl}
                       onChange={(e) => {
@@ -127,9 +128,9 @@ const UploadRepo = ({setAdded,added}:any) => {
 
             
 
-            <div className="flex justify-end gap-4.5">
+            <div className="">
               <button
-                className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
+                className="flex justify-center rounded bg-primary px-6 py-3 border border-primary font-medium text-gray hover:bg-opacity-90"
                 type="submit"
               >
                 Save

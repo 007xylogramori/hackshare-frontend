@@ -1,10 +1,27 @@
-import { deleteResource } from "@/services/resourceServices";
+import { deleteRepo } from "@/services/githubRepo";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 interface GithubResourceProps {
   repo: any;
+  setRepo:any;
+  repos:any;
+  setAllRepos:any;
 }
-const GithubResource = ({ repo }: GithubResourceProps) => {
+const GithubResource = ({ repo,repos,setAllRepos,setRepo }: GithubResourceProps) => {
+  const params = useParams<{ teamId: string }>();
+  const [deleting, setDeleting] = useState(false);
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      await deleteRepo(params.teamId,repo._id);
+
+        setAllRepos(repos.filter((doc:any )=> doc._id !== repo?._id));
+    } catch (error) {
+      console.log(error);
+    }
+    setDeleting(false);
+  };
   return (
     <div className="w-min-[100%] flex  items-center  justify-between border border-stroke bg-white px-4 py-1.5 dark:border-strokedark dark:bg-boxdark">
       <div className="flex flex-col  ">
@@ -36,6 +53,27 @@ const GithubResource = ({ repo }: GithubResourceProps) => {
           >
             VIEW
           </Link>
+        </div>
+        <div>
+        {
+          
+          <div className="">
+          <button
+            type="submit"
+            onClick={handleDelete}
+            className="hidden items-center justify-center rounded-md border border-red px-10 py-2 text-center font-medium text-red hover:bg-opacity-90 dark:inline-flex lg:px-6 xl:px-8"
+          >
+        {deleting?"Deleting":"Delete"}   
+          </button>
+          <button
+            type="submit"
+            onClick={handleDelete}
+            className="inline-flex items-center justify-center bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 dark:hidden lg:px-6 xl:px-8"
+          >
+          {deleting?"Deleting":"Delete"} 
+          </button>
+        </div>
+        }
         </div>
       </div>
     </div>

@@ -5,8 +5,10 @@ interface DocumentResourceProps {
   document: any;
   setDocuments:any;
   documents:any
+  user:any
 }
-const DocumentResource = ({ document ,setDocuments,documents }: DocumentResourceProps) => {
+const DocumentResource = ({ document ,setDocuments,documents,user }: DocumentResourceProps) => {
+  console.log(documents)
   const [deleting, setDeleting] = useState(false);
   const handleDelete = async () => {
     setDeleting(true);
@@ -40,7 +42,9 @@ const DocumentResource = ({ document ,setDocuments,documents }: DocumentResource
             View
           </Link>
         </div>
-        <div className="mt-2">
+        {
+          user?.username==document.user.username || user?.username==document.team.owner.username ?
+          <div className="mt-2">
           <button
             type="submit"
             onClick={handleDelete}
@@ -55,7 +59,8 @@ const DocumentResource = ({ document ,setDocuments,documents }: DocumentResource
           >
           {deleting?"Deleting":"Delete"} 
           </button>
-        </div>
+        </div>:""
+        }
       </div>
     </div>
   );

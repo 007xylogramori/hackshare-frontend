@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/Authcontext";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
@@ -7,13 +7,24 @@ import ChangePasswordForm from "@/components/ChangePassword/ChangePasswordForm";
 import ChangePersonalInfo from "@/components/ChangePersonalInformation/ChangePersonalInfo";
 import { ToastError, ToastSuccess } from "@/services/toastNotification";
 import axios from "axios";
+type SocialLinks = {
+  github: string;
+  facebook: string;
+  linkedin: string;
+  behance: string;
+};
+
 
 const Settings = () => {
   const authContext = useContext(AuthContext);
-  // console.log(authContext?.user?.socials)
-
-  const [socials,setSocials]=useState({})
-  const handleSaveSocials=async(e)=>{
+  const [socials, setSocials] = useState<SocialLinks>({
+    github: "",
+    facebook: "",
+    linkedin: "",
+    behance: "",
+  });
+  
+  const handleSaveSocials=async(e:FormEvent)=>{
      e.preventDefault();
      try{
       const response = await axios.post(

@@ -5,9 +5,10 @@ import React, { useState } from "react";
 interface ImageResourceProps {
   image: any;
   setImages:any;
-  images:any
+  images:any;
+  user:any;
 }
-const ImageResource = ({ image ,setImages,images }: ImageResourceProps) => {
+const ImageResource = ({ image ,setImages,images,user }: ImageResourceProps) => {
   const [deleting, setDeleting] = useState(false);
   const handleDelete = async () => {
     setDeleting(true)
@@ -47,7 +48,8 @@ const ImageResource = ({ image ,setImages,images }: ImageResourceProps) => {
             View
           </Link>
         </div>
-        <div className="mt-2">
+        {
+          user?.username==image.user.username || user?.username==image.team.owner.username ?<div className="mt-2">
           <button
             type="submit"
             onClick={handleDelete}
@@ -64,7 +66,8 @@ const ImageResource = ({ image ,setImages,images }: ImageResourceProps) => {
           >
            {deleting?"Deleting":"Delete"}
           </button>
-        </div>
+        </div>:""
+        }
       </div>
     </div>
   );
