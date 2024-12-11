@@ -117,7 +117,7 @@ Community Page: Connect with users over the internet, you can make your post , l
 
   return (
     <>
-      <div className="relative " onClick={() => setShow(!show)}>
+      <div className="relative z-999 " onClick={() => setShow(!show)}>
         <button
           className="fixed bottom-0 right-3  mb-5 mr-1 flex 
                   shrink-0 grow-0 flex-col justify-around
@@ -142,7 +142,7 @@ Community Page: Connect with users over the internet, you can make your post , l
       {
         <div
           id="chat-container"
-          className={`fixed ${!show && "hidden "} bottom-4 w-[93%]  md:max-w-96 lg:right-8`}
+          className={`fixed z-999 ${!show && "hidden "} bottom-4 w-[93%]  md:max-w-96 lg:right-8`}
         >
           <div className="w-full max-w-lg rounded-lg bg-white shadow-md dark:bg-black">
             <div className="flex items-center justify-between rounded-t-lg bg-primary  p-2 text-white">
